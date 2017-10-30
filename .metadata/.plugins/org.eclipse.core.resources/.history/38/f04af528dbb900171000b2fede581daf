@@ -1,0 +1,18 @@
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class KeyInput extends KeyAdapter{
+	
+	Handler handler;
+	public void KeyInput(Handler handler) {
+		this.handler = handler;
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		
+	}
+	
+	public void KeyReleased(KeyEvent e) {
+		
+	}
+}

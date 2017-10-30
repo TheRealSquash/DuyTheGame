@@ -1,0 +1,27 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
+public class Coin extends GameObject{
+
+	private BufferedImage coin_image;
+	
+	public Coin(int x, int y, ID id, SpriteSheetLvl1 ss) {
+		super(x, y, id, ss);
+		coin_image = ss.grabImage(10, 1, 32, 32);
+	}
+
+	public void tick() {
+		
+	}
+
+	public void render(Graphics g) {
+		g.drawImage(coin_image, x, y, null);
+	}
+
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, 16, 16);
+	}
+
+}

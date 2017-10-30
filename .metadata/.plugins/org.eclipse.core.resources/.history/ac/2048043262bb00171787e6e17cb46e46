@@ -1,0 +1,10 @@
+
+public enum ID {
+
+	Duy(),
+	Berg(),
+	DivineJuice(),
+	GodBolt(),
+	Penguin();
+	
+}//ID
