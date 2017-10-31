@@ -3,7 +3,8 @@ import java.awt.Rectangle;
 
 public abstract class GameObject {
 
-	protected int x, y;
+	protected int x;
+	protected int y;
 	protected float velX = 0, velY = 0;
 	protected ID id;
 	private SpriteSheetLvl1 ss;

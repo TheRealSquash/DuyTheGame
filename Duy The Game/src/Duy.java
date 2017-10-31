@@ -8,6 +8,7 @@ public class Duy extends GameObject {
 	Game game;
 	private BufferedImage[] duy_image = new BufferedImage[3];
 	Animation anim;
+	public static boolean battle = false;
 	
 	public Duy(int x, int y, ID id, Handler handler, Game game, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
@@ -107,7 +108,12 @@ public class Duy extends GameObject {
 					x += velX * -1;
 					y += velY * -1;
 				}
-				
+			}
+			
+			if(tempObject.getId() == ID.BossBlock) {
+				if(getBounds().intersects(tempObject.getBounds())){
+					battle = true;
+				}
 			}
 		}
 	}

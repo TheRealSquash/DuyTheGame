@@ -154,13 +154,13 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.white);
 		g.drawString("Coin: " + coin, 2, 29);
 		g.setColor(Color.white);
-		g.drawString("Key: " + key, 52, 29);
+		g.drawString("DevVar: " + EmperorPenguin.tester, 52, 29);
 		//Draw Above////////////////////////////////
 		g.dispose();
 		bs.show();
 	}//render
 	
-	//loading the level
+	//loading the levels
 	private void loadLevel(BufferedImage image) {
 		int w = image.getWidth();
 		int h = image.getHeight();
@@ -174,13 +174,13 @@ public class Game extends Canvas implements Runnable {
 				if(green == 0 && red == 255 && blue == 0) 
 					handler.addObject(new Berg(xx*32, yy*32, ID.Berg, ss));
 				
-				if(blue == 255 && green == 0)
+				if(blue == 255 && green == 0 && red == 0)
 					handler.addObject(new Duy(xx*32, yy*32, ID.Duy, handler, this, ss));		
 				
-				if(green == 255 && blue == 0)
+				if(green == 255 && blue == 0 && red == 0)
 					handler.addObject(new PenguinA(xx*32, yy*32, ID.PenguinA, handler, ss));
 				
-				if(green == 255 && blue == 255)
+				if(green == 255 && blue == 255 && red == 0)
 					handler.addObject(new DivineJuice(xx*32, yy*32, ID.DivineJuice, ss));
 				
 				if(green == 255 && red == 255 && blue == 0)
@@ -197,6 +197,12 @@ public class Game extends Canvas implements Runnable {
 				
 				if(green == 0 && red == 255 && blue == 110 && key == false)
 					handler.addObject(new Door(xx*32, yy*32, ID.Door, handler, ss));
+				
+				if(green == 255 && red == 255 && blue == 255)
+					handler.addObject(new EmperorPenguin(xx*32, yy*32, ID.EmperorPenguin, handler, ss));
+				
+				if(green == 106 && red == 127 && blue == 0)
+					handler.addObject(new BossBlock(xx*32, yy*32, ID.BossBlock, ss));
 			}
 		}
 	}

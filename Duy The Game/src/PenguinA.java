@@ -28,7 +28,7 @@ public class PenguinA extends GameObject{
 		
 		for(int i = 0; i < handler.object.size(); i++){
 			GameObject tempObject = handler.object.get(i);
-			
+	
 			if(tempObject.getId() == ID.Berg) {
 				if(getBounds().intersects(tempObject.getBounds())) {
 					velocity *= -1;
@@ -41,7 +41,7 @@ public class PenguinA extends GameObject{
 			
 			if(tempObject.getId() == ID.GodBolt) {
 				if(getBounds().intersects(tempObject.getBounds())) {
-				HP -= 10;
+				HP -= 20;
 				handler.removeObject(tempObject);
 				}
 			}
@@ -60,6 +60,11 @@ public class PenguinA extends GameObject{
 
 	public void render(Graphics g) {
 			anim.drawAnimation(g, x, y, 0);
+			
+			Graphics2D g2d = (Graphics2D) g;
+			
+			g.setColor(Color.green);
+			g2d.draw(getBounds());
 	}
 
 	public Rectangle getBounds() {

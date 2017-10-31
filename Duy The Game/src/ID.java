@@ -11,6 +11,8 @@ public enum ID {
 	Coin(),
 	Key(),
 	Door(),
+	EmperorPenguin(),
+	BossBlock(),
 	Advance();
 	
 }//ID

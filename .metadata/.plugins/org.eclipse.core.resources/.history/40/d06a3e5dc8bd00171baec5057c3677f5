@@ -1,0 +1,65 @@
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
+public class EmperorPenguin extends GameObject{
+	
+	private Handler handler;
+	int HP = 1000;
+	int velocity = 1;
+	private BufferedImage[] emperorPenguin_image = new BufferedImage[3];
+	Animation anim;
+
+	public EmperorPenguin(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
+		super(x, y, id, ss);
+		this.handler = handler;
+		
+		emperorPenguin_image[0] = ss.grabImage(11, 1, 64, 64);
+		emperorPenguin_image[1] = ss.grabImage(12, 1, 64, 64);
+		emperorPenguin_image[2] = ss.grabImage(13, 1, 64, 64);
+		
+		anim = new Animation(3, emperorPenguin_image[0], emperorPenguin_image[1], emperorPenguin_image[2]);
+	}
+
+	public void tick() {
+		y += velY;
+		x += velX;
+		
+		for(int i = 0; i < handler.object.size(); i++){
+			GameObject tempObject = handler.object.get(i);
+			
+			if(tempObject.getId() == ID.Berg) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+					x += velX * -1;
+					y += velY * -1;
+				}
+			
+			if(tempObject.getId() == ID.GodBolt) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+				HP -= 10;
+				handler.removeObject(tempObject);
+				}
+			}
+			
+			if(tempObject.getId() == ID.Duy) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+					y += velY * -1;
+					x += velX * -1;
+					Game.hp--;
+				}
+			}
+		}
+		
+		anim.runAnimation();
+		if(HP <= 0) handler.removeObject(this);
+		}
+	}
+
+	public void render(Graphics g) {
+			anim.drawAnimation(g, x, y, 0);
+	}
+
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, 32, 32);
+	}
+}
