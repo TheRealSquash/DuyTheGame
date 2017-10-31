@@ -10,6 +10,7 @@ public class Berg extends GameObject {
 	public Berg(int x, int y, ID id, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
 		berg_image = ss.grabImage(5, 2, 32, 32);
+
 	}
 
 	public void tick() {

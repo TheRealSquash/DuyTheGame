@@ -10,7 +10,6 @@
 <fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
 <fullyQualifiedTypeName name="java.awt.event.MouseEvent"/>
 <fullyQualifiedTypeName name="java.awt.Graphics2D"/>
-<fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.io.File"/>
@@ -22,4 +21,5 @@
 <fullyQualifiedTypeName name="javax.sound.sampled.Clip"/>
 <fullyQualifiedTypeName name="javax.sound.sampled.FloatControl"/>
 <fullyQualifiedTypeName name="javax.sound.sampled.FloatControl.Type"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
 </qualifiedTypeNameHistroy>

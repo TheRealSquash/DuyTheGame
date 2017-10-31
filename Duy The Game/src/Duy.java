@@ -115,6 +115,25 @@ public class Duy extends GameObject {
 					battle = true;
 				}
 			}
+			
+			if(tempObject.getId() == ID.EmperorPenguin) {
+				if(getBounds().intersects(tempObject.getBounds())){
+					x += velX * -1;
+					y += velY * -1;
+				}	
+			}
+			
+			if(tempObject.getId() == ID.Bandaid) {
+				if(getBounds().intersects(tempObject.getBounds())){
+					//heals 10 health
+					game.hp += 10;
+					handler.removeObject(tempObject);
+				}
+			}
+			
+			if(game.hp > 100) {
+				game.hp = 100;
+			}
 		}
 	}
 	public void render(Graphics g) {

@@ -6,16 +6,20 @@ import java.awt.image.BufferedImage;
 
 public class EmperorPenguin extends GameObject{
 	
+	private BufferedImage egg_image;
+	
 	private Handler handler;
 	int HP = 200;
 	int velocity = 2;
 	private BufferedImage[] emperorPenguin_image = new BufferedImage[3];
 	Animation anim;
 	public static boolean tester = false;
-
+	private SpriteSheetLvl1 ss;
+	
 	public EmperorPenguin(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
 		this.handler = handler;
+		this.ss = ss;
 		
 		emperorPenguin_image[0] = ss.grabImage(11, 1, 64, 64);
 		emperorPenguin_image[1] = ss.grabImage(13, 1, 64, 64);
@@ -36,6 +40,11 @@ public class EmperorPenguin extends GameObject{
 					anim.runAnimation();
 					velX = (int) Math.signum(tempObject.getX() - x);
 					velY = (int) Math.signum(tempObject.getY() - y);
+					if((int) (Math.random() * 250) == 1) {
+						Game.egg = true;
+						handler.addObject(new Egg(x + 32, y + 32, ID.Egg, handler, ss));
+						Game.egg = false;
+					}
 				}else {
 					velY = 0;
 					velX = 0;
@@ -63,6 +72,9 @@ public class EmperorPenguin extends GameObject{
 		}
 		
 		
+		
+		
+		
 		if(HP <= 0) {
 			 handler.removeObject(this);
 			 System.exit(0);
@@ -80,4 +92,6 @@ public class EmperorPenguin extends GameObject{
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 64, 64);
 	}
+	
+	
 }

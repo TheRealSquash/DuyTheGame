@@ -25,6 +25,7 @@ public class Game extends Canvas implements Runnable {
 	public static int coin = 0;
 	public static boolean coinTaken = false;
 	public static boolean key = false;
+	public static boolean egg = false;
 	
 	public static void main(String[] args) {
 		BackgroundMusic music = new BackgroundMusic("Background");
@@ -102,6 +103,7 @@ public class Game extends Canvas implements Runnable {
 			handler.object.clear();
 			hp = 100;
 			divinity = 100;
+			Duy.battle = false;
 			loadLevel(levelOneA);
 		}
 		else if(complete == true) {
@@ -154,7 +156,7 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.white);
 		g.drawString("Coin: " + coin, 2, 29);
 		g.setColor(Color.white);
-		g.drawString("DevVar: " + EmperorPenguin.tester, 52, 29);
+		g.drawString("DevVar: " + egg, 52, 29);
 		//Draw Above////////////////////////////////
 		g.dispose();
 		bs.show();

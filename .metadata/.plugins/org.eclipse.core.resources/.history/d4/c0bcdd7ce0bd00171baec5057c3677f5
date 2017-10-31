@@ -1,0 +1,55 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
+public class Egg extends GameObject{
+	private Handler handler;
+	private BufferedImage egg_image;
+	private int duyX, duyY;
+	
+	public Egg(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
+		super(x, y, id, ss);
+		this.id = id;
+		this.handler = handler;
+		egg_image = ss.grabImage(10, 1, 32, 32);
+		for(int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+			
+			if(tempObject.getId() == ID.Duy) {
+				velX = (int) Math.signum(tempObject.getX() - x);
+				velY = (int) Math.signum(tempObject.getY() - y);
+			}
+		}
+				
+	}
+
+	public void tick() {
+		x += velX;
+		y += velY;
+		
+		for(int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+			
+			if(tempObject.getId() == ID.Duy) {
+				Game.hp -= 10;
+			} 
+			
+			if(tempObject.getId() == ID.Berg) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+					handler.removeObject(this);
+				}
+			}
+			
+			
+		}
+	}
+
+	public void render(Graphics g) {
+		g.drawImage(egg_image, x, y, null);
+	}
+
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, 32, 32);
+	}
+}

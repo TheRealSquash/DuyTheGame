@@ -11,10 +11,12 @@ public class PenguinA extends GameObject{
 	int velocity = 4;
 	private BufferedImage[] penguinA_image = new BufferedImage[3];
 	Animation anim;
+	private SpriteSheetLvl1 ss;
 
 	public PenguinA(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
 		this.handler = handler;
+		this.ss = ss;
 		
 		penguinA_image[0] = ss.grabImage(4, 1, 32, 32);
 		penguinA_image[1] = ss.grabImage(5, 1, 32, 32);
@@ -55,7 +57,12 @@ public class PenguinA extends GameObject{
 		}
 		
 		anim.runAnimation();
-		if(HP <= 0) handler.removeObject(this);
+		if(HP <= 0) {
+			handler.removeObject(this);
+			if((int) (Math.random() * 5) == 1) {
+				handler.addObject(new Bandaid(x, y, ID.Bandaid, ss));
+			}
+		}
 	}
 
 	public void render(Graphics g) {

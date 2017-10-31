@@ -13,6 +13,8 @@ public enum ID {
 	Door(),
 	EmperorPenguin(),
 	BossBlock(),
+	Egg(),
+	Bandaid(),
 	Advance();
 	
 }//ID
