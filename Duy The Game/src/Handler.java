@@ -8,6 +8,8 @@ public class Handler {
 	
 	private boolean up = false, down = false, right = false, left = false;
 	
+	public int babyPenguinCount;
+	
 	public boolean isUp() {
 		return up;
 	}
@@ -41,16 +43,17 @@ public class Handler {
 	}
 
 	public void tick() {
-
+		for(int i=0; i < objectLast.size(); i++) {
+			GameObject tempObject = objectLast.get(i);
+			tempObject.tick();
+		}//for
+		
 		for(int i=0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
 			tempObject.tick();
 		}//for
 		
-		for(int i=0; i < objectLast.size(); i++) {
-			GameObject tempObject = objectLast.get(i);
-			tempObject.tick();
-		}//for
+
 	}//tick
 	
 	public void render(Graphics g) {
@@ -58,6 +61,7 @@ public class Handler {
 			GameObject tempObject = objectLast.get(i);
 			tempObject.render(g);
 		}//for
+		
 		for(int i=0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
 			tempObject.render(g);
@@ -66,7 +70,14 @@ public class Handler {
 	}//render
 	
 	public void addObject(GameObject tempObject) {
-		object.add(tempObject);
+		if(tempObject.id == ID.BabyPenguin) {
+			if(babyPenguinCount < 10) {
+				babyPenguinCount ++;
+				object.add(tempObject);
+			}
+		}else {
+			object.add(tempObject);
+		}
 	}//addObject
 	
 	public void addObjectLast(GameObject tempObject) {
@@ -75,6 +86,13 @@ public class Handler {
 	
 	public void removeObject(GameObject tempObject) {
 		object.remove(tempObject);
+		if(tempObject.id == ID.BabyPenguin) {
+			babyPenguinCount --;
+		}
+	}//removeObject
+	
+	public void removeObjectLast(GameObject tempObject) {
+		objectLast.remove(tempObject);
 	}//removeObject
 	
 }//Handler

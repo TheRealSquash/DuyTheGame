@@ -17,6 +17,7 @@ public enum ID {
 	Bandaid(),
 	Advance(),
 	Blood(),
-	BabyPenguin()
+	BabyPenguin(),
+	DivineBlood(),
 	
 }//ID

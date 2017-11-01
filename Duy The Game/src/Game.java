@@ -123,6 +123,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		if(hp <= 0) {
 			handler.object.clear();
+			handler.objectLast.clear();
 			hp = 100;
 			divinity = 100;
 			Duy.battle = false;
@@ -131,6 +132,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		else if(complete == true) {
 			handler.object.clear();
+			handler.objectLast.clear();
 			complete = false;
 			loadLevel(levelOneB);
 		}
@@ -190,6 +192,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public void loadLevelOne() {
 		handler.object.clear();
+		handler.objectLast.clear();
 		loadLevel(levelOneA);
 	}
 	//loading the levels
