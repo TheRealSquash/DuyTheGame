@@ -4,6 +4,7 @@ import java.util.LinkedList;
 public class Handler {
 
 	LinkedList<GameObject> object = new LinkedList<GameObject>();
+	LinkedList<GameObject> objectLast = new LinkedList<GameObject>();
 	
 	private boolean up = false, down = false, right = false, left = false;
 	
@@ -40,21 +41,36 @@ public class Handler {
 	}
 
 	public void tick() {
+
 		for(int i=0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
+			tempObject.tick();
+		}//for
+		
+		for(int i=0; i < objectLast.size(); i++) {
+			GameObject tempObject = objectLast.get(i);
 			tempObject.tick();
 		}//for
 	}//tick
 	
 	public void render(Graphics g) {
+		for(int i=0; i < objectLast.size(); i++) {
+			GameObject tempObject = objectLast.get(i);
+			tempObject.render(g);
+		}//for
 		for(int i=0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
 			tempObject.render(g);
 		}//for
+
 	}//render
 	
 	public void addObject(GameObject tempObject) {
 		object.add(tempObject);
+	}//addObject
+	
+	public void addObjectLast(GameObject tempObject) {
+		objectLast.add(tempObject);
 	}//addObject
 	
 	public void removeObject(GameObject tempObject) {

@@ -1,0 +1,238 @@
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+public class Game extends Canvas implements Runnable {
+	private static final long serialVersionUID = 1L;
+
+	private boolean isRunning = false;
+	private Thread thread;
+	private Handler handler;
+	private Camera camera;
+	private SpriteSheetLvl1 ss;
+	
+	private BufferedImage levelOneMenu = null;
+	private BufferedImage levelOneA = null;
+	private BufferedImage levelOneB = null;
+	private BufferedImage sprite_sheet = null;
+	private BufferedImage floor = null;
+	private boolean startButton = true;
+	
+	public int divinity = 100;
+	public static int hp = 100;
+	public static boolean complete = false;
+	public static int coin = 0;
+	public static boolean coinTaken = false;
+	public static boolean key = false;
+	public static boolean egg = false;
+	
+	public static void main(String[] args) {
+		BackgroundMusic music = new BackgroundMusic("Background");
+		music.start();
+		new Game();
+	}//main
+	
+	public static void menu() {
+		
+	}
+	public Game() {
+		new Window(1000, 563, "Duy The Game", this);
+		start();
+		
+		handler = new Handler();
+		camera = new Camera(0, 0);
+		this.addKeyListener(new KeyInput (handler));
+		
+		BufferedImageLoader loader = new BufferedImageLoader();
+		levelOneMenu = loader.loadImage("/level1Menu.png");
+		levelOneA = loader.loadImage("/level1A.png");
+		levelOneB = loader.loadImage("/level1B.png");
+		sprite_sheet = loader.loadImage("/sprite_sheetlvl1.png");
+		
+		ss = new SpriteSheetLvl1(sprite_sheet);
+		floor = ss.grabImage(4, 2, 32, 32);
+		this.addMouseListener(new MouseInput(handler, camera, this, ss));
+		loadLevel(levelOneMenu);
+
+		
+	}//constructor Game
+	
+	public void run() {
+		this.requestFocus();
+		long lastTime = System.nanoTime();
+		double amountOfTicks = 60.0;
+		double ns = 1000000000 / amountOfTicks;
+		double delta = 0;
+		long timer = System.currentTimeMillis();
+		int frames = 0;
+		while(isRunning) {
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			lastTime= now;
+			while(delta >= 1) {
+				tick();
+				delta--;
+			}//while
+			render();
+			frames++;
+			if(System.currentTimeMillis() - timer > 1000) {
+				timer += 1000;
+				frames = 0;
+			}//if
+		}//while
+		stop();
+	}//run
+	
+	private void start() {
+		isRunning = true;
+		thread = new Thread(this);
+		thread.start();
+	}//start
+	
+	private void stop() {
+		isRunning = false;
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}//try/catch
+	}//stop
+	
+	public void tick() {
+		for(int i = 0; i < handler.object.size(); i++) {
+			if(handler.object.get(i).getId() == ID.Duy) {
+				camera.tick(handler.object.get(i));
+			}
+		}
+		if(hp <= 0) {
+			handler.object.clear();
+			hp = 100;
+			divinity = 100;
+			Duy.battle = false;
+			loadLevel(levelOneA);
+		}
+		else if(complete == true) {
+			handler.object.clear();
+			complete = false;
+			loadLevel(levelOneB);
+		}
+		handler.tick();
+	}//tick
+	
+	public void render() {
+		BufferStrategy bs = this.getBufferStrategy();
+		if(bs == null) {
+			this.createBufferStrategy(3);
+			return;
+		}//if
+		Graphics g = bs.getDrawGraphics();
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.translate(-camera.getX(), -camera.getY());
+		for(int xx = 0; xx < 32 * 72; xx+=32) {
+			for(int yy = 0; yy < 32 * 72; yy+=32) {
+				g.drawImage(floor, xx, yy, null);
+			}
+		}
+		//Draw Below////////////////////////////////
+		handler.render(g);
+		if(!startButton) {
+			g2d.translate(camera.getX(), camera.getY());
+			g.setColor(Color.gray);
+			g.fillRect(0, 0, 200, 16);
+			g.setColor(Color.red);
+			g.fillRect(0, 0, hp*2, 16);
+			g.setColor(Color.black);
+			g.drawRect(0, 0, 200, 16);
+			g.setColor(Color.white);
+			g.drawString("HP: " + hp, 2, 12);
+			
+			g.setColor(Color.gray);
+			g.fillRect(200, 0, 200, 16);
+			g.setColor(Color.magenta);
+			g.fillRect(200, 0, divinity*2, 16);
+			g.setColor(Color.black);
+			g.drawRect(200, 0, 200, 16);
+			g.setColor(Color.white);
+			g.drawString("Divinity: " + divinity, 202, 12);
+			
+			g.setColor(Color.gray);
+			g.fillRect(0, 16, 125, 16);
+			g.setColor(Color.black);
+			g.drawRect(0, 16, 125, 16);
+			g.setColor(Color.white);
+			g.drawString("Coin: " + coin, 2, 29);
+			g.setColor(Color.white);
+			g.drawString("DevVar: " + egg, 52, 29);
+		}
+		if(startButton) {
+			g.setColor(Color.gray);
+			g.fillRect(450, 273, 100, 16);
+			g.setColor(Color.black);
+			g.drawRect(450, 273, 100, 16);
+			g.setColor(Color.white);
+			g.drawString("START", 500, 286);
+		}
+		
+		//Draw Above////////////////////////////////
+		g.dispose();
+		bs.show();
+	}//render
+	
+	//loading the levels
+	private void loadLevel(BufferedImage image) {
+		int w = image.getWidth();
+		int h = image.getHeight();
+		for(int xx = 0; xx < w; xx++) {
+			for(int yy = 0; yy < h; yy++) {
+				int pixel = image.getRGB(xx, yy);
+				int red = (pixel >> 16) & 0xff;
+				int green = (pixel >> 8) & 0xff;
+				int blue = (pixel) & 0xff;
+				
+				if(green == 0 && red == 255 && blue == 0) 
+					handler.addObject(new Berg(xx*32, yy*32, ID.Berg, ss));
+				
+				if(blue == 255 && green == 0 && red == 0)
+					handler.addObject(new Duy(xx*32, yy*32, ID.Duy, handler, this, ss));
+				
+				if(green == 255 && blue == 0 && red == 0)
+					handler.addObject(new PenguinA(xx*32, yy*32, ID.PenguinA, handler, ss));
+				
+				if(green == 255 && blue == 255 && red == 0)
+					handler.addObject(new DivineJuice(xx*32, yy*32, ID.DivineJuice, ss));
+				
+				if(green == 255 && red == 255 && blue == 0)
+					handler.addObject(new Water(xx*32, yy*32, ID.Water, ss));
+				
+				if(green == 0 && red == 127 && blue == 55)
+					handler.addObject(new Advance(xx*32, yy*32, ID.Advance, ss));
+				
+				if(green == 0 && red == 127 && blue == 0 && coinTaken == false)
+					handler.addObject(new Coin(xx*32, yy*32, ID.Coin, ss));
+				
+				if(green == 128 && red == 128 && blue == 128 && key == false)
+					handler.addObject(new Key(xx*32, yy*32, ID.Key, ss));
+				
+				if(green == 0 && red == 255 && blue == 110 && key == false)
+					handler.addObject(new Door(xx*32, yy*32, ID.Door, handler, ss));
+				
+				if(green == 255 && red == 255 && blue == 255)
+					handler.addObject(new EmperorPenguin(xx*32, yy*32, ID.EmperorPenguin, handler, ss));
+				
+				if(green == 106 && red == 127 && blue == 0)
+					handler.addObject(new BossBlock(xx*32, yy*32, ID.BossBlock, ss));
+			}
+		}
+	}
+}//Game

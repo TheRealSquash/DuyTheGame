@@ -15,6 +15,8 @@ public enum ID {
 	BossBlock(),
 	Egg(),
 	Bandaid(),
-	Advance();
+	Advance(),
+	Blood(),
+	BabyPenguin()
 	
 }//ID

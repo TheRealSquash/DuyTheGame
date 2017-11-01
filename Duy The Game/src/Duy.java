@@ -23,8 +23,12 @@ public class Duy extends GameObject {
 	}
 
 	public void tick() {
+		
 		x += velX;
 		y += velY;
+		
+		game.duyX = x;
+		game.duyY = y;
 		
 		collision();
 		
@@ -41,6 +45,11 @@ public class Duy extends GameObject {
 		else if(!handler.isRight()) velX = 0;
 		
 		anim.runAnimation();
+		
+		if(game.startButton) {
+			game.hp = 100;
+			game.divinity = 100;
+		}
 	}
 
 	private void collision() {
@@ -137,6 +146,15 @@ public class Duy extends GameObject {
 		}
 	}
 	public void render(Graphics g) {
+		if(game.startButton) {
+			g.setColor(Color.gray);
+			g.fillRect(x - 34, y - 18, 100, 16);
+			g.setColor(Color.black);
+			g.drawRect(x - 34, y - 18, 100, 16);
+			g.setColor(Color.white);
+			g.drawString("START", x - 4, y - 5);
+			g.drawString("START", x - 4, y - 5);
+		}
 		if(velX == 0 && velY == 0) {
 			g.drawImage(duy_image[0], x, y, null);
 		}

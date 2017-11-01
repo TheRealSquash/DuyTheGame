@@ -59,6 +59,7 @@ public class PenguinA extends GameObject{
 		anim.runAnimation();
 		if(HP <= 0) {
 			handler.removeObject(this);
+			handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
 			if((int) (Math.random() * 5) == 1) {
 				handler.addObject(new Bandaid(x, y, ID.Bandaid, ss));
 			}
@@ -67,11 +68,6 @@ public class PenguinA extends GameObject{
 
 	public void render(Graphics g) {
 			anim.drawAnimation(g, x, y, 0);
-			
-			Graphics2D g2d = (Graphics2D) g;
-			
-			g.setColor(Color.green);
-			g2d.draw(getBounds());
 	}
 
 	public Rectangle getBounds() {

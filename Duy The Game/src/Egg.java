@@ -7,10 +7,12 @@ public class Egg extends GameObject{
 	private Handler handler;
 	private BufferedImage egg_image;
 	public int dx = 0, dy = 0;
+	private SpriteSheetLvl1 ss;
 	
 	public Egg(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
 		this.id = id;
+		this.ss = ss;
 		this.handler = handler;
 		egg_image = ss.grabImage(17, 2, 32, 32);
 		for(int i = 0; i < handler.object.size(); i++) {
@@ -34,12 +36,14 @@ public class Egg extends GameObject{
 				if(getBounds().intersects(tempObject.getBounds())) {
 					Game.hp -= 20;
 					handler.removeObject(this);
+
 				}
 			}
 			
 			if(tempObject.getId() == ID.Berg) {
-				if(getBounds().intersects(tempObject.getBounds())) {
+				if(getBoundsBig().intersects(tempObject.getBounds())) {
 					handler.removeObject(this);
+					//handler.addObject(new PenguinA(x, y, ID.PenguinA, handler, ss));
 				}
 			}
 			
@@ -52,5 +56,9 @@ public class Egg extends GameObject{
 
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 32, 32);
+	}
+	
+	public Rectangle getBoundsBig() {
+		return new Rectangle(x, y, 48, 48);
 	}
 }
