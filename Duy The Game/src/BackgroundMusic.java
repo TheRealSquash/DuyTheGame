@@ -14,8 +14,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class BackgroundMusic implements Runnable {
 	
 	private Thread t;
-	private String threadName;
-	
 	private ArrayList<String> musicFiles;
 	private int currentSongIndex;
 	
@@ -54,11 +52,9 @@ public class BackgroundMusic implements Runnable {
 	}
 	
    public void start () {
-      System.out.println("Starting " +  threadName );
-      if (t == null) {
+      if(t == null) {
          t = new Thread (this, "t");
-         t.start ();
+         t.start();
       }
    }
-
 }

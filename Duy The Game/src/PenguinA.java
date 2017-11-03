@@ -10,7 +10,9 @@ public class PenguinA extends GameObject{
 	int HP = 100;
 	int velocity = 4;
 	private BufferedImage[] penguinA_image = new BufferedImage[3];
+	private BufferedImage[] penguinA_image_back = new BufferedImage[3];
 	Animation anim;
+	Animation animBack;
 	private SpriteSheetLvl1 ss;
 
 	public PenguinA(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
@@ -21,8 +23,12 @@ public class PenguinA extends GameObject{
 		penguinA_image[0] = ss.grabImage(4, 1, 32, 32);
 		penguinA_image[1] = ss.grabImage(5, 1, 32, 32);
 		penguinA_image[2] = ss.grabImage(6, 1, 32, 32);
+		penguinA_image_back[0] = ss.grabImage(10, 4, 32, 32);
+		penguinA_image_back[1] = ss.grabImage(11, 4, 32, 32);
+		penguinA_image_back[2] = ss.grabImage(12, 4, 32, 32);
 		
 		anim = new Animation(3, penguinA_image[0], penguinA_image[1], penguinA_image[2]);
+		animBack = new Animation(3, penguinA_image_back[0], penguinA_image_back[1], penguinA_image_back[2]);
 	}
 
 	public void tick() {
@@ -55,8 +61,13 @@ public class PenguinA extends GameObject{
 				}
 			}
 		}
+		if(velY > 0) {
+			anim.runAnimation();
+		}
+		if(velY < 0) {
+			animBack.runAnimation();
+		}
 		
-		anim.runAnimation();
 		if(HP <= 0) {
 			handler.removeObject(this);
 			handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
@@ -67,7 +78,12 @@ public class PenguinA extends GameObject{
 	}
 
 	public void render(Graphics g) {
-			anim.drawAnimation(g, x, y, 0);
+			if(velY > 0) {
+				anim.drawAnimation(g, x, y, 0);
+			}
+			if(velY < 0) {
+				animBack.drawAnimation(g, x, y, 0);
+			}
 	}
 
 	public Rectangle getBounds() {

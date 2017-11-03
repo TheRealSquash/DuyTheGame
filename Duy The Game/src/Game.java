@@ -42,9 +42,10 @@ public class Game extends Canvas implements Runnable {
 	
 	public int duyX = 0;
 	public int duyY = 0;
+	static BackgroundMusic music;
 	
 	public static void main(String[] args) {
-		BackgroundMusic music = new BackgroundMusic("Background");
+		music = new BackgroundMusic("Background");
 		music.start();
 		new Game();
 	}//main
@@ -137,7 +138,7 @@ public class Game extends Canvas implements Runnable {
 			loadLevel(levelOneB);
 		}
 		handler.tick();
-	}//tick
+	}//ticks
 	
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
