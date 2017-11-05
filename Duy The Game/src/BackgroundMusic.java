@@ -14,14 +14,17 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class BackgroundMusic implements Runnable {
 	
 	private Thread t;
+	private String threadName;
+	
 	private ArrayList<String> musicFiles;
 	private int currentSongIndex;
 	
 	public BackgroundMusic(String... files) {
 		musicFiles = new ArrayList<String>();
 		for(String file : files) {
-			musicFiles.add(file + ".wav");
+			musicFiles.add("./audio/" + file + ".wav");
 		}
+		
 	}
 	
 	private void playSound(String fileName) {
@@ -52,10 +55,11 @@ public class BackgroundMusic implements Runnable {
 	}
 	
    public void start () {
-      if(t == null) {
+      System.out.println("Starting " +  threadName );
+      if (t == null) {
          t = new Thread (this, "t");
-         t.start();
-         t.interrupt();
+         t.start ();
       }
    }
+
 }

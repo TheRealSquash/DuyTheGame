@@ -31,6 +31,11 @@ public class PenguinA extends GameObject{
 		animBack = new Animation(3, penguinA_image_back[0], penguinA_image_back[1], penguinA_image_back[2]);
 	}
 
+	public void getPunched() {
+		Game.playSound("/effects/punches/" + (int) (Math.random() * 8 + 1));
+		HP -= 4;
+	}
+	
 	public void tick() {
 		y += velY;
 		
@@ -58,6 +63,7 @@ public class PenguinA extends GameObject{
 				if(getBounds().intersects(tempObject.getBounds())) {
 					y += velY * -1;
 					Game.hp--;
+					getPunched();
 				}
 			}
 		}

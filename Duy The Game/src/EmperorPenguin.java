@@ -25,6 +25,9 @@ public class EmperorPenguin extends GameObject{
 	
 	public EmperorPenguin(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
+		
+		trumpet();
+		
 		this.handler = handler;
 		this.ss = ss;
 		
@@ -47,6 +50,16 @@ public class EmperorPenguin extends GameObject{
 		animLeft = new Animation(3, emperorPenguin_image_left[0], emperorPenguin_image_left[1], emperorPenguin_image_left[2]);
 	}
 
+	public void trumpet() {
+		Game.playSound("/effects/emperor_trumpet");
+	}
+	
+	public void throwEgg() {
+		Game.egg = true;
+		handler.addObject(new Egg(x + 32, y + 32, ID.Egg, handler, ss));
+		Game.egg = false;
+		Game.playSound("/effects/woosh");
+	}
 	public void tick() {
 		y += velY;
 		x += velX;
@@ -71,9 +84,7 @@ public class EmperorPenguin extends GameObject{
 					velX = (int) Math.signum(tempObject.getX() - x);
 					velY = (int) Math.signum(tempObject.getY() - y);
 					if((int) (Math.random() * 250) == 1) {
-						Game.egg = true;
-						handler.addObject(new Egg(x + 32, y + 32, ID.Egg, handler, ss));
-						Game.egg = false;
+						throwEgg();
 					}
 				}else {
 					velY = 0;

@@ -10,10 +10,12 @@ public class Duy extends GameObject {
 	private BufferedImage[] duy_image_back = new BufferedImage[3];
 	private BufferedImage[] duy_image_right = new BufferedImage[3];
 	private BufferedImage[] duy_image_left = new BufferedImage[3];
-	Animation anim;
-	Animation animBack;
-	Animation animRight;
-	Animation animLeft;
+	
+	public static Animation currentAnim = null;
+	public static Animation anim;
+	public static Animation animBack;
+	public static Animation animRight;
+	public static Animation animLeft;
 	
 	public static boolean battle = false;
 	
@@ -63,16 +65,10 @@ public class Duy extends GameObject {
 		if(handler.isLeft()) velX = -5;
 		else if(!handler.isRight()) velX = 0;
 		
-
-		if(velY > 0 && velX == 0) {
-			anim.runAnimation();
-		}else if(velY < 0 && velX == 0){
-			animBack.runAnimation();
-		}else if(velX > 0) {
-			animRight.runAnimation();
-		}else if(velX < 0) {
-			animLeft.runAnimation();
+		if(currentAnim != null) {
+			currentAnim.runAnimation();
 		}
+		
 		
 		if(game.startButton) {
 			game.hp = 100;
@@ -209,14 +205,8 @@ public class Duy extends GameObject {
 		if(velX == 0 && velY == 0) {
 			g.drawImage(duy_image[0], x, y, null);
 		}
-		else if(velY > 0 && velX == 0) {
-				anim.drawAnimation(g, x, y, 0);
-		}else if(velY < 0 && velX == 0){
-			animBack.drawAnimation(g, x, y, 0);
-		}else if(velX > 0) {
-			animRight.drawAnimation(g, x, y, 0);
-		}else if(velX < 0){
-			animLeft.drawAnimation(g, x, y, 0);
+		else {
+			currentAnim.drawAnimation(g, x, y, 0);
 		}
 	}
 
