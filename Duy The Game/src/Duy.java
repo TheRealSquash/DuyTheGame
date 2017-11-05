@@ -118,7 +118,7 @@ public class Duy extends GameObject {
 			}
 			
 			if(tempObject.getId() == ID.PenguinA) {
-				if(getBounds().intersects(tempObject.getBounds())){
+				if(getBoundsSmall().intersects(tempObject.getBounds())){
 					//subtract 50 health
 					game.hp--;
 					x += velX * -1;
@@ -208,10 +208,14 @@ public class Duy extends GameObject {
 		else {
 			currentAnim.drawAnimation(g, x, y, 0);
 		}
+		g.drawRect(x+4, y+4, 24, 40);
 	}
 
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 32, 48);
 	}
-
+	
+	public Rectangle getBoundsSmall() {
+		return new Rectangle(x + 4, y + 8, 24, 32);
+	}
 }
