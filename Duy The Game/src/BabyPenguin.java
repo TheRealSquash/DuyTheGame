@@ -65,6 +65,15 @@ public class BabyPenguin extends GameObject{
 
 	public void render(Graphics g) {
 		g.drawImage(babyPenguin_image, x, y, null);
+		if(hp < 100) {
+			g.setColor(Color.gray);
+			g.fillRect(x+3, y-16, 25, 8);
+			g.setColor(Color.red);
+			g.fillRect(x+3, y-16, hp/4, 8);
+			g.setColor(Color.black);
+			g.drawRect(x+3, y-16, 25, 8);
+			g.setColor(Color.white);
+		}
 	}
 
 	public Rectangle getBounds() {
