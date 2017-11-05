@@ -90,15 +90,6 @@ public class PenguinA extends GameObject{
 			if(velY < 0) {
 				animBack.drawAnimation(g, x, y, 0);
 			}
-			if(HP < 100) {
-				g.setColor(Color.gray);
-				g.fillRect(x+3, y-16, 25, 8);
-				g.setColor(Color.red);
-				g.fillRect(x+3, y-16, HP/4, 8);
-				g.setColor(Color.black);
-				g.drawRect(x+3, y-16, 25, 8);
-				g.setColor(Color.white);
-			}
 	}
 
 	public Rectangle getBounds() {
