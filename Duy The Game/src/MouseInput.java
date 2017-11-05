@@ -35,6 +35,7 @@ public class MouseInput extends MouseAdapter{
 			
 			if(tempObject.getId() == ID.Duy && game.divinity >= 1) {
 				 handler.addObject(new GodBolt(tempObject.getX() + 16, tempObject.getY()+24, ID.GodBolt, handler, mx, my, ss));
+				 Game.playSound("/effects/woosh");
 				 game.divinity -= 2;
 			}
 		}

@@ -25,24 +25,31 @@ public class Egg extends GameObject{
 			velY = (dy - y) / 20;
 		}
 	}
-
+	
+	public void crack() {
+		handler.removeObject(this);
+		Game.playSound("/effects/glass/" + Integer.toString((int) (Math.random() * 4 + 1)));
+	}
+	
 	public void tick() {
 		x += velX;
 		y += velY;
 		
 		for(int i = 0; i < handler.object.size(); i++) {
+			
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getId() == ID.Duy) {
+				
 				if(getBounds().intersects(tempObject.getBounds())) {
+					crack();
 					Game.hp -= 20;
-					handler.removeObject(this);
 
 				}
 			}
 			
 			if(tempObject.getId() == ID.Berg) {
 				if(getBoundsBig().intersects(tempObject.getBounds())) {
-					handler.removeObject(this);
+					crack();
 					handler.addObject(new BabyPenguin(x, y, ID.BabyPenguin, handler, ss));
 				}
 			}

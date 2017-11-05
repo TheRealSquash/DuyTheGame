@@ -8,21 +8,28 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class BackgroundMusic implements Runnable {
+public class BackgroundMusic implements Runnable, LineListener{
 	
 	private Thread t;
+	private String threadName;
+	
 	private ArrayList<String> musicFiles;
 	private int currentSongIndex;
 	
 	public BackgroundMusic(String... files) {
 		musicFiles = new ArrayList<String>();
 		for(String file : files) {
-			musicFiles.add(file + ".wav");
+			musicFiles.add("./audio/" + file + ".wav");
 		}
+		
 	}
+	
+	Clip clip;
 	
 	private void playSound(String fileName) {
 		try {
@@ -31,11 +38,17 @@ public class BackgroundMusic implements Runnable {
 			AudioFormat format = ais.getFormat();
 			DataLine.Info info = new DataLine.Info(Clip.class, format);
 			try {
-				Clip clip = (Clip) AudioSystem.getLine(info);
+				clip = (Clip) AudioSystem.getLine(info);
 				clip.open(ais);
 				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 				gainControl.setValue(-10);
 				clip.start();
+				while(clip.getMicrosecondLength() != clip.getMicrosecondPosition()) {
+					
+				}
+				if(fileName.equals("./audio/effects/emperor_trumpet.wav")) {
+					Game.focus = "duy";
+				}
 			} catch (LineUnavailableException e) {
 				e.printStackTrace();
 			}
@@ -47,15 +60,32 @@ public class BackgroundMusic implements Runnable {
 		
 	}
 	
+	public void stop() {
+		clip.stop();
+	}
+	
 	public void run() {
 		playSound(musicFiles.get(currentSongIndex));
 	}
 	
    public void start () {
-      if(t == null) {
+      if (t == null) {
          t = new Thread (this, "t");
-         t.start();
-         t.interrupt();
+         t.start ();
       }
    }
+
+	@Override
+	public void update(LineEvent event) {
+		if(event.getType() == LineEvent.Type.START) {
+			
+		}
+		if(event.getType() == LineEvent.Type.STOP) {
+			clip.stop();
+			clip.flush();
+			clip.setFramePosition(0);
+			System.out.println("stop");
+		}
+	}
+
 }
