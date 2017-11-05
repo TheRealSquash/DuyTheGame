@@ -167,6 +167,7 @@ public class Duy extends GameObject {
 			if(tempObject.getId() == ID.BossBlock) {
 				if(getBounds().intersects(tempObject.getBounds())){
 					battle = true;
+					Game.playSound("/effects/emperor_trumpet");
 				}
 			}
 			
