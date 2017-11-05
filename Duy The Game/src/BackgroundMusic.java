@@ -55,6 +55,7 @@ public class BackgroundMusic implements Runnable {
       if(t == null) {
          t = new Thread (this, "t");
          t.start();
+         t.interrupt();
       }
    }
 }
