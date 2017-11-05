@@ -26,8 +26,6 @@ public class EmperorPenguin extends GameObject{
 	public EmperorPenguin(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
 		
-		trumpet();
-		
 		this.handler = handler;
 		this.ss = ss;
 		
@@ -89,6 +87,7 @@ public class EmperorPenguin extends GameObject{
 				}else {
 					velY = 0;
 					velX = 0;
+					anim.runAnimation();
 				}
 				if(getBounds().intersects(tempObject.getBounds())) {
 					y += velY * -1;
@@ -130,6 +129,8 @@ public class EmperorPenguin extends GameObject{
 			animRight.drawAnimation(g, x, y, 0);
 		}else if(velX < 0) {
 			animLeft.drawAnimation(g, x, y, 0);
+		}else {
+			anim.drawAnimation(g, x, y, 0);
 		}
 			g.setColor(Color.gray);
 			g.fillRect(x+7, y-32, 50, 16);

@@ -208,7 +208,6 @@ public class Duy extends GameObject {
 		else {
 			currentAnim.drawAnimation(g, x, y, 0);
 		}
-		g.drawRect(x+4, y+4, 24, 40);
 	}
 
 	public Rectangle getBounds() {
