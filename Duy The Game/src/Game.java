@@ -44,15 +44,17 @@ public class Game extends Canvas implements Runnable {
 	public int duyY = 0;
 	static BackgroundMusic music;
 	
+	public static BackgroundMusic background;
+	
 	public static void main(String[] args) {
-		Game.playSound("Background");
-
+		background = Game.playSound("Background");
 		new Game();
 	}//main
 	
-	public static void playSound(String fileName) {
+	public static BackgroundMusic playSound(String fileName) {
 		BackgroundMusic sound = new BackgroundMusic(fileName);
 		sound.start();
+		return sound;
 	}
 	
 	public Game() {

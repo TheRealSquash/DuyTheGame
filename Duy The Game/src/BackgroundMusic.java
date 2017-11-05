@@ -27,6 +27,8 @@ public class BackgroundMusic implements Runnable {
 		
 	}
 	
+	Clip clip;
+	
 	private void playSound(String fileName) {
 		try {
 			File soundFile = new File(fileName);
@@ -34,7 +36,7 @@ public class BackgroundMusic implements Runnable {
 			AudioFormat format = ais.getFormat();
 			DataLine.Info info = new DataLine.Info(Clip.class, format);
 			try {
-				Clip clip = (Clip) AudioSystem.getLine(info);
+				clip = (Clip) AudioSystem.getLine(info);
 				clip.open(ais);
 				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 				gainControl.setValue(-10);
@@ -48,6 +50,10 @@ public class BackgroundMusic implements Runnable {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void stop() {
+		clip.stop();
 	}
 	
 	public void run() {
