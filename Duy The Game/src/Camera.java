@@ -28,5 +28,4 @@ public class Camera {
 		this.y = y;
 	}
 	
-	
 }

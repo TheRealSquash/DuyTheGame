@@ -45,6 +45,7 @@ public class Game extends Canvas implements Runnable {
 	static BackgroundMusic music;
 	
 	public static BackgroundMusic background;
+	public static String focus = "duy";
 	
 	public static void main(String[] args) {
 		background = Game.playSound("Background");
@@ -122,9 +123,17 @@ public class Game extends Canvas implements Runnable {
 	
 	public void tick() {
 		for(int i = 0; i < handler.object.size(); i++) {
-			if(handler.object.get(i).getId() == ID.Duy) {
-				camera.tick(handler.object.get(i));
-			}
+			
+				if(handler.object.get(i).getId() == ID.Duy) {
+					if(focus.toLowerCase() == "duy") {
+						camera.tick(handler.object.get(i));
+					}
+				}else if(handler.object.get(i).getId() == ID.EmperorPenguin) {
+					if(focus.toLowerCase() == "emperorpenguin") {
+						camera.tick(handler.object.get(i));
+					}
+				}
+
 		}
 		if(hp <= 0) {
 			handler.object.clear();
@@ -140,6 +149,8 @@ public class Game extends Canvas implements Runnable {
 			handler.objectLast.clear();
 			complete = false;
 			loadLevel(levelOneB);
+			Game.focus = "emperorpenguin";
+			Game.playSound("effects/emperor_trumpet");
 		}
 		handler.tick();
 	}//ticks

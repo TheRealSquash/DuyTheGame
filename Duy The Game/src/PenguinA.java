@@ -54,8 +54,8 @@ public class PenguinA extends GameObject{
 			
 			if(tempObject.getId() == ID.GodBolt) {
 				if(getBounds().intersects(tempObject.getBounds())) {
-				HP -= 20;
-				handler.removeObject(tempObject);
+					HP -= 20;
+					handler.removeObject(tempObject);
 				}
 			}
 			
