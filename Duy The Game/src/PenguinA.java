@@ -14,7 +14,9 @@ public class PenguinA extends GameObject{
 	Animation anim;
 	Animation animBack;
 	private SpriteSheetLvl1 ss;
-
+	private BufferedImage deadPenguin;
+	public boolean isDead = false;
+	
 	public PenguinA(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
 		this.handler = handler;
@@ -26,6 +28,10 @@ public class PenguinA extends GameObject{
 		penguinA_image_back[0] = ss.grabImage(10, 4, 32, 32);
 		penguinA_image_back[1] = ss.grabImage(11, 4, 32, 32);
 		penguinA_image_back[2] = ss.grabImage(12, 4, 32, 32);
+		
+		
+		deadPenguin = ss.grabImage(19, 1, 32, 32);
+		
 		
 		anim = new Animation(3, penguinA_image[0], penguinA_image[1], penguinA_image[2]);
 		animBack = new Animation(3, penguinA_image_back[0], penguinA_image_back[1], penguinA_image_back[2]);
@@ -56,13 +62,17 @@ public class PenguinA extends GameObject{
 				if(getBounds().intersects(tempObject.getBounds())) {
 					HP -= 20;
 					handler.removeObject(tempObject);
+					Game.playSound("/effects/penguin/hit/" + Integer.toString((int) (Math.random() * 3 + 1)));
 				}
 			}
 			
 			if(tempObject.getId() == ID.Duy) {
 				if(getBounds().intersects(tempObject.getBounds())) {
 					y += velY * -1;
-					Game.hp--;
+					if(!Game.penguinDead) {
+						Game.hp--;
+					}
+					
 					getPunched();
 				}
 			}
@@ -75,11 +85,29 @@ public class PenguinA extends GameObject{
 		}
 		
 		if(HP <= 0) {
-			handler.removeObject(this);
-			handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
-			if((int) (Math.random() * 5) == 1) {
-				handler.addObject(new Bandaid(x, y, ID.Bandaid, ss));
+			Game.penguinDead = true;
+			if(y % 16 == 0) {
+				handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
 			}
+			
+			if(!Game.penguinSoundStarted) {
+				Game.playSound("effects/penguin/dying");
+				Game.penguinSoundStarted = true;
+			}
+			if(Game.penguinDeathSound) {
+				velY = 0;
+			}
+			if(!Game.penguinDeathSound) {
+				handler.removeObject(this);
+				handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
+				if((int) (Math.random() * 5) == 1) {
+					handler.addObject(new Bandaid(x, y, ID.Bandaid, ss));
+				}
+				Game.penguinDeathSound = true;
+				Game.penguinSoundStarted = false;
+				Game.penguinDead = false;
+			}
+
 		}
 	}
 
@@ -89,8 +117,10 @@ public class PenguinA extends GameObject{
 			}
 			if(velY < 0) {
 				animBack.drawAnimation(g, x, y, 0);
+			}else if(velY == 0) {
+				g.drawImage(deadPenguin, x, y, null);
 			}
-			if(HP < 100) {
+			if(HP < 100 && HP > 0) {
 				g.setColor(Color.gray);
 				g.fillRect(x+3, y-16, 25, 8);
 				g.setColor(Color.red);

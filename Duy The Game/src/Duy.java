@@ -87,6 +87,7 @@ public class Duy extends GameObject {
 				if(getBounds().intersects(tempObject.getBounds())){
 					game.divinity += 20;
 					handler.removeObjectLast(tempObject);
+					Game.playSound("/effects/divine/" + Integer.toString((int) (Math.random() * 6 + 1)), 0);
 				}
 			}
 		}
@@ -114,13 +115,17 @@ public class Duy extends GameObject {
 					//juice fully restores divinity
 					game.divinity = 100;
 					handler.removeObject(tempObject);
+					Game.playSound("/effects/divine/" + Integer.toString((int) (Math.random() * 6 + 1)), 0);
 				}
 			}
 			
 			if(tempObject.getId() == ID.PenguinA) {
 				if(getBoundsSmall().intersects(tempObject.getBounds())){
 					//subtract 50 health
-					game.hp--;
+					if(!Game.penguinDead) {
+						game.hp--;
+					}
+					
 					x += velX * -1;
 					y += velY * -1;
 				}	
@@ -146,6 +151,7 @@ public class Duy extends GameObject {
 					Game.coin++;
 					game.coinTaken = true;
 					handler.removeObject(tempObject);
+					Game.playSound("/effects/coin", 0);
 				}
 			}
 			
@@ -166,8 +172,13 @@ public class Duy extends GameObject {
 			
 			if(tempObject.getId() == ID.BossBlock) {
 				if(getBounds().intersects(tempObject.getBounds())){
+					if(!battle) {
+						Game.background.stop();
+						Game.background = Game.playSound("emperorTheme", 10);
+						Game.playSound("/effects/emperor_trumpet");
+					}
 					battle = true;
-					Game.playSound("/effects/emperor_trumpet");
+					
 				}
 			}
 			

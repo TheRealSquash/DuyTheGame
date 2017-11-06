@@ -21,7 +21,10 @@ public class BackgroundMusic implements Runnable, LineListener{
 	private ArrayList<String> musicFiles;
 	private int currentSongIndex;
 	
-	public BackgroundMusic(String... files) {
+	private int vol;
+	
+	public BackgroundMusic(int vol, String... files) {
+		this.vol = vol;
 		musicFiles = new ArrayList<String>();
 		for(String file : files) {
 			musicFiles.add("./audio/" + file + ".wav");
@@ -30,8 +33,9 @@ public class BackgroundMusic implements Runnable, LineListener{
 	}
 	
 	Clip clip;
+	FloatControl gainControl;
 	
-	private void playSound(String fileName) {
+	private void playSound(String fileName, int volume) {
 		try {
 			File soundFile = new File(fileName);
 			AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
@@ -40,14 +44,18 @@ public class BackgroundMusic implements Runnable, LineListener{
 			try {
 				clip = (Clip) AudioSystem.getLine(info);
 				clip.open(ais);
-				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(-10);
+				gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				gainControl.setValue(volume);
 				clip.start();
 				while(clip.getMicrosecondLength() != clip.getMicrosecondPosition()) {
 					
 				}
 				if(fileName.equals("./audio/effects/emperor_trumpet.wav")) {
 					Game.focus = "duy";
+				}
+				
+				if(fileName.equals("./audio/effects/penguin/dying.wav")) {
+					Game.penguinDeathSound = false;
 				}
 			} catch (LineUnavailableException e) {
 				e.printStackTrace();
@@ -60,12 +68,49 @@ public class BackgroundMusic implements Runnable, LineListener{
 		
 	}
 	
+	private void playSound(String fileName) {
+		try {
+			File soundFile = new File(fileName);
+			AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
+			AudioFormat format = ais.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			try {
+				clip = (Clip) AudioSystem.getLine(info);
+				clip.open(ais);
+				gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				gainControl.setValue(-10);
+				clip.start();
+				while(clip.getMicrosecondLength() != clip.getMicrosecondPosition()) {
+					
+				}
+				if(fileName.equals("./audio/effects/emperor_trumpet.wav")) {
+					Game.focus = "duy";
+				}
+				System.out.println(fileName);
+				if(fileName.equals("./audio/effects/penguin/dying.wav")) {
+					Game.penguinDeathSound = false;
+				}
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+
+
+
+	
 	public void stop() {
 		clip.stop();
 	}
 	
 	public void run() {
-		playSound(musicFiles.get(currentSongIndex));
+		playSound(musicFiles.get(currentSongIndex), vol);
 	}
 	
    public void start () {

@@ -36,6 +36,9 @@ public class Game extends Canvas implements Runnable {
 	public static boolean coinTaken = false;
 	public static boolean key = false;
 	public static boolean egg = false;
+	public static boolean penguinDeathSound = true;
+	public static boolean penguinSoundStarted = false;
+	public static boolean penguinDead = false;
 	
 	public int mouseX = 0;
 	public int mouseY = 0;
@@ -48,12 +51,21 @@ public class Game extends Canvas implements Runnable {
 	public static String focus = "duy";
 	
 	public static void main(String[] args) {
-		background = Game.playSound("Background");
 		new Game();
 	}//main
 	
+	public static BackgroundMusic playSound(String fileName, int vol) {
+		BackgroundMusic sound = new BackgroundMusic(vol, fileName);
+		sound.start();
+		return sound;
+	}
 	public static BackgroundMusic playSound(String fileName) {
-		BackgroundMusic sound = new BackgroundMusic(fileName);
+		BackgroundMusic sound = new BackgroundMusic(-10, fileName);
+		sound.start();
+		return sound;
+	}
+	public static BackgroundMusic playSound(String fileName, PenguinA object) {
+		BackgroundMusic sound = new BackgroundMusic(-10, fileName);
 		sound.start();
 		return sound;
 	}
@@ -136,12 +148,14 @@ public class Game extends Canvas implements Runnable {
 
 		}
 		if(hp <= 0) {
+			background.stop();
 			handler.object.clear();
 			handler.objectLast.clear();
 			hp = 100;
 			divinity = 100;
 			Duy.battle = false;
 			startButton = true;
+			background = Game.playSound("Background", -30);
 			loadLevel(levelOneMenu);
 		}
 		else if(complete == true) {
@@ -198,7 +212,7 @@ public class Game extends Canvas implements Runnable {
 			g.setColor(Color.white);
 			g.drawString("Coin: " + coin, 2, 29);
 			g.setColor(Color.white);
-			g.drawString("DevVar: " + egg, 52, 29);
+			g.drawString("DevVar: " + penguinDead, 52, 29);
 		}
 		
 		//Draw Above////////////////////////////////

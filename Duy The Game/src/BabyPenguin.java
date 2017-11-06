@@ -56,7 +56,6 @@ public class BabyPenguin extends GameObject{
 			if((int) (Math.random() * 2) == 1) {
 				handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
 			}else {
-				
 				handler.addObjectLast(new DivineBlood(x, y, ID.DivineBlood, ss));
 			}
 		}
