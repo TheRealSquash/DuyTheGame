@@ -49,7 +49,9 @@ public class Egg extends GameObject{
 			if(tempObject.getId() == ID.Berg) {
 				if(getBoundsBig().intersects(tempObject.getBounds())) {
 					crack();
-					handler.addObject(new BabyPenguin(x, y, ID.BabyPenguin, handler, ss));
+					if(Game.babyPenguinCount < 10) {
+						handler.addObject(new BabyPenguin(x, y, ID.BabyPenguin, handler, ss));
+					}
 				}
 			}
 			

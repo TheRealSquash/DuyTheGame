@@ -39,7 +39,7 @@ public class Game extends Canvas implements Runnable {
 	public static boolean penguinDeathSound = true;
 	public static boolean penguinSoundStarted = false;
 	public static boolean penguinDead = false;
-	
+	public static int babyPenguinCount = 0;
 	public int mouseX = 0;
 	public int mouseY = 0;
 	

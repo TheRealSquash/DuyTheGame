@@ -15,6 +15,7 @@ public class BabyPenguin extends GameObject{
 	
 	public BabyPenguin(int x, int y, ID id, Handler handler, SpriteSheetLvl1 ss) {
 		super(x, y, id, ss);
+		Game.babyPenguinCount ++;
 		this.handler = handler;
 		this.ss = ss;
 		babyPenguin_image = ss.grabImage(18, 1, 32, 32);
@@ -53,6 +54,7 @@ public class BabyPenguin extends GameObject{
 		
 		if(hp <= 0) {
 			handler.removeObject(this);
+			Game.babyPenguinCount --;
 			if((int) (Math.random() * 2) == 1) {
 				handler.addObjectLast(new Blood(x, y, ID.Blood, handler, ss));
 			}else {
