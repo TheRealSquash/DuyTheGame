@@ -141,7 +141,7 @@ public class Game extends Canvas implements Runnable {
 						camera.tick(handler.object.get(i));
 					}
 				}else if(handler.object.get(i).getId() == ID.EmperorPenguin) {
-					if(focus.toLowerCase() == "emperorpenguin") {
+					if(focus.toLowerCase() == "emperorpenguin" || focus.toLowerCase() == "door") {
 						camera.tick(handler.object.get(i));
 					}
 				}
@@ -155,7 +155,6 @@ public class Game extends Canvas implements Runnable {
 			divinity = 100;
 			Duy.battle = false;
 			startButton = true;
-			background = Game.playSound("Background", -30);
 			loadLevel(levelOneMenu);
 		}
 		else if(complete == true) {

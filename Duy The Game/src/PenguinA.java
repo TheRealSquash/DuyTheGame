@@ -87,7 +87,7 @@ public class PenguinA extends GameObject{
 		if(HP <= 0) {
 			Game.penguinDead = true;
 			if(y % 16 == 0) {
-				handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
+				handler.addObjectLast(new Blood(x, y, ID.Blood, handler, ss));
 			}
 			
 			if(!Game.penguinSoundStarted) {
@@ -99,7 +99,7 @@ public class PenguinA extends GameObject{
 			}
 			if(!Game.penguinDeathSound) {
 				handler.removeObject(this);
-				handler.addObjectLast(new Blood(x, y, ID.Blood, ss));
+				handler.addObjectLast(new Blood(x, y, ID.Blood, handler, ss));
 				if((int) (Math.random() * 5) == 1) {
 					handler.addObject(new Bandaid(x, y, ID.Bandaid, ss));
 				}

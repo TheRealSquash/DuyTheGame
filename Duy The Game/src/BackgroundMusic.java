@@ -48,9 +48,18 @@ public class BackgroundMusic implements Runnable, LineListener{
 				gainControl.setValue(volume);
 				clip.start();
 				while(clip.getMicrosecondLength() != clip.getMicrosecondPosition()) {
-					
+					if(fileName.equals("./audio/effects/doorOpen.wav")) {
+						if(clip.getMicrosecondPosition() > 1000000 && clip.getMicrosecondPosition() < 1100000) {
+							Game.key = true;
+						}
+					}
+
 				}
 				if(fileName.equals("./audio/effects/emperor_trumpet.wav")) {
+					Game.focus = "duy";
+				}
+				
+				if(fileName.equals("./audio/effects/doorOpen.wav")) {
 					Game.focus = "duy";
 				}
 				

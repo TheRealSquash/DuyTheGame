@@ -39,11 +39,10 @@ public class Egg extends GameObject{
 			
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getId() == ID.Duy) {
-				
+
 				if(getBounds().intersects(tempObject.getBounds())) {
 					crack();
 					Game.hp -= 20;
-
 				}
 			}
 			

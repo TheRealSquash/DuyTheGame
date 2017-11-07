@@ -158,8 +158,9 @@ public class Duy extends GameObject {
 			if(tempObject.getId() == ID.Key) {
 				if(getBounds().intersects(tempObject.getBounds())){
 					//collect key
-					Game.key = true;
 					handler.removeObject(tempObject);
+					Game.playSound("effects/doorOpen");
+					Game.focus = "door";
 				}
 			}
 			
@@ -174,7 +175,7 @@ public class Duy extends GameObject {
 				if(getBounds().intersects(tempObject.getBounds())){
 					if(!battle) {
 						Game.background.stop();
-						Game.background = Game.playSound("emperorTheme", 10);
+						Game.background = Game.playSound("emperorTheme", 6);
 						Game.playSound("/effects/emperor_trumpet");
 					}
 					battle = true;
@@ -183,7 +184,7 @@ public class Duy extends GameObject {
 			}
 			
 			if(tempObject.getId() == ID.EmperorPenguin) {
-				if(getBounds().intersects(tempObject.getBounds())){
+				if(getBounds().intersects(tempObject.getBounds())) {
 					x += velX * -1;
 					y += velY * -1;
 				}	
